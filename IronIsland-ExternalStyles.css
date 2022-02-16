@@ -1,0 +1,188 @@
+/*====================================================================
+
+ Site:   Iron Island
+ Page:   Iron Island External Styles
+ Author: Dan Ouellette
+ Description:
+   This CSS page contains external styles for the web site.  The color
+ scheme used is composed of the five colors shown in the color scheme
+ section.
+
+====================================================================*/
+
+/*====================================================================
+ Color scheme
+====================================================================*/ 
+:root 
+{
+  --color-darkgold: #F2A819FF;
+  --color-lightgold: #F8D010FF;
+  --color-blue: #263B75FF;
+  --color-teal: #40937FFF;
+  --color-orange: #E85134FF;
+}
+
+/*====================================================================
+ General style
+====================================================================*/ 
+*
+{
+  box-sizing: border-box;
+}
+
+/*====================================================================
+ Body style
+====================================================================*/
+body
+{
+  background-color:var(--color-darkgold);
+  font-family:verdana, georgia, san-serif;
+  font-size:20px;
+  font-weight:bold;
+}
+
+/*====================================================================
+ Anchor style
+====================================================================*/
+a
+{
+  color:white;
+  padding:20px;
+}
+
+/*====================================================================
+ Button style
+====================================================================*/
+button
+{
+  background-color:var(--color-lightgold);
+  color:black;
+  font-size:30px;
+  font-weight:bold;
+  margin:20px;
+  padding:20px;
+  width:20%;
+}
+
+/*====================================================================
+ Fieldset styles
+====================================================================*/
+fieldset
+{
+  background-color:var(--color-lightgold);
+  color:black;
+  padding:20px;
+  width:20%;
+}
+    
+fieldset input
+{
+  width:20%;
+}
+
+/*====================================================================
+ Heading styles
+====================================================================*/
+h1
+{
+  font-size:40px;
+  text-align:center;
+}
+h2
+{
+  font-size:30px;
+  text-align:center;
+}
+h3
+{
+  font-size:20px;
+  text-align:center;
+}
+
+/*====================================================================
+ Input and select styles
+====================================================================*/
+    
+input, select
+{
+  background-color:white;
+  font-size:24px;
+  font-weight:bold;
+  padding:12px;
+  width:500px;
+}
+
+input:read-only 
+{
+  background-color:var(--color-teal);
+  color:white;
+  margin-right:100px;
+  text-align:right;
+  width:160px;
+}
+
+/*====================================================================
+ Label style
+====================================================================*/
+    
+label
+{
+  display:inline-block;
+  font-size:24px;
+  width:300px;
+}
+    
+label.labelTotal
+{
+  width:180px;
+}
+
+/*====================================================================
+ Paragraph style
+====================================================================*/
+p
+{
+  font-size:40px;
+}
+
+/*====================================================================
+ Class styles
+====================================================================*/
+ 
+.headerPanel
+{
+  background-color:var(--color-blue);
+  clear:both;
+  color:white;
+  padding:4px;
+  text-align:center;
+  width:100%;
+}
+
+.contentPanel
+{
+  display:block;
+  float:left;
+  height:auto;
+  margin-left:auto;
+  margin-right:auto;
+  padding:20px;
+  width:100%;
+}
+
+.footerPanel
+{
+  background-color:var(--color-blue);
+  clear:both;
+  color:white;
+  padding:10px;
+  width:100%;
+}
+
+/*====================================================================
+ Pseudo classes
+====================================================================*/
+a:hover, button:hover
+{
+  background-color:var(--color-orange);
+}

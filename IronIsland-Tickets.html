@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<!--==================================================================
+//
+// Site:   Iron Island
+// Page:   Iron Island Tickets
+// Author: Dan Ouellette
+// Description:
+//   This web page enables a customer to order tickets to visit Iron
+// Island.
+// 
+//=================================================================-->
+
+<head>
+  
+  <title>Iron Island Tickets</title>
+  <meta charset="UTF-8">
+  <meta name="author" content="Dan Ouellette"/>
+  <meta name="description" content="Iron Island"/>
+  <meta name="keywords" content="park, codes, fun">
+    
+  <!-- Favicon link -->
+  <link 
+    rel="shortcut icon" href="IronIsland-Logo.png" type="image/x-icon" 
+  />
+
+  <!-- External CSS link -->
+  <link rel="stylesheet" type="text/css" 
+    href="IronIsland-ExternalStyles.css">
+
+  <!-- Page scripts -->
+  <script type="text/javascript">
+    "use strict";
+    
+    // Declare globals
+    var code;
+    var codes;
+
+    //================================================================
+    // loadCodes
+    //   This function retrieves the discount codes from local storage
+    // and manipulates the document object model (DOM) to place them 
+    // in the discount combo box.
+    //================================================================
+    function loadCodes()
+    {
+    
+      // Declare variables
+      var opt;
+      var txt;
+    
+      // Retrieve codes from local storage
+      codes = JSON.parse(localStorage.getItem("localCodes"));
+      console.dir(codes);
+      console.log("Discount code data retrieved.");
+      
+      // Loop to build combo box
+      for (var i = 0; i < codes.length; i++)
+      {
+        opt = document.createElement("option");
+        opt.setAttribute('value', codes[i][1]);
+        txt = document.createTextNode(codes[i][0]);
+        opt.appendChild(txt);
+        cmbDiscountCode.appendChild(opt);
+      }
+      updateTicketCost();
+      
+    }
+
+    //================================================================
+    // storeCodes
+    //   This function places discount codes in local storage so that 
+    // we can simulate this page retrieving them.  This is necessary 
+    // since this is a client-only web site.  Normally, this data 
+    // would come from the server.
+    //================================================================
+    function storeCodes()
+    {
+    
+      // Store codes in array
+      var s = 
+        [
+          [ "(none)", 0 ],
+          [ "DC1", 15 ],
+          [ "DC2", 5 ],
+          [ "DC3", 10 ],
+          [ "DC4", 30 ],
+          [ "DC5", 25 ],
+          [ "DC6", 35 ],
+          [ "DC7", 40 ]
+        ];
+      
+      // Store codes in local storage
+      localStorage.setItem("localCodes", JSON.stringify(s));
+      
+    }
+
+    //================================================================
+    // submitSale
+    //   This function retrieves sale data from the page and stores it
+    // in session storage.  It the opens the Tickets Confirmation 
+    // page.
+    //================================================================
+    function submitSale()
+    {
+    
+      // Store sale data in session storage
+      sessionStorage.setItem("customerName", txtCustomerName.value);
+      sessionStorage.setItem("customerEmail", txtCustomerEmail.value);
+      sessionStorage.setItem("visitDate", txtDate.value);
+      sessionStorage.setItem("partOfDay", document.querySelector(
+        'input[name="rbPartOfDay"]:checked').value);
+      sessionStorage.setItem("tickets", txtTickets.value);
+      sessionStorage.setItem("parking", cmbParking.value);
+      sessionStorage.setItem("discount", code);
+      sessionStorage.setItem("payment", document.querySelector(
+        'input[name="rbPaymentType"]:checked').value);
+      sessionStorage.setItem("total", txtTotal.value);
+
+      // Open Tickets Confirmation page
+      open("IronIsland-TicketsConfirmation.html", "_self");
+      
+    }
+
+    //================================================================
+    // updateTicketCost
+    //================================================================
+    function updateTicketCost()
+    {
+      
+      // Declare variables
+      var tickets;
+      var parking;
+      var discount;
+      var subtotal;
+      var tax;
+      var total;
+
+      // Calculate ticket cost
+      tickets = txtTickets.value * 75;
+      
+      // Calculate parking cost
+      if (cmbParking.value == "Regular")
+        parking = 50;
+      else if (cmbParking.value == "Premium")
+        parking = 100;
+      else
+        parking = 0;
+        
+      // Get discount code and calculate discount
+      code = codes[cmbDiscountCode.selectedIndex][0];
+      discount = parseInt(cmbDiscountCode.value);
+
+      // Calculate totals
+      subtotal = tickets + parking - discount;
+      tax = subtotal * 0.06;
+      total = subtotal + tax;
+      
+      // Set text boxes
+      txtTicketCost.value = tickets.toFixed(2);
+      txtParking.value = parking.toFixed(2);
+      txtDiscount.value = discount.toFixed(2);
+      txtSubtotal.value = subtotal.toFixed(2);
+      txtTax.value = tax.toFixed(2);
+      txtTotal.value = total.toFixed(2);
+        
+    }
+
+  </script>
+  
+</head>
+ 
+<body onload="storeCodes();loadCodes()">
+
+  <!-- Header section -->
+  <div class="headerPanel">
+    <h1>
+      Iron Island Tickets
+    </h1>
+  </div>
+  
+  <!-- Main panel -->
+  <div class="contentPanel">
+
+    <!-- Customer name and e-mail -->
+    <label>Customer name:</label>
+    <input 
+      type="text" name="txtCustomerName" id="txtCustomerName" 
+      placeholder="your name" required
+      id="txtCustomerName" 
+      >
+    <br><br>
+    <label>Customer e-mail:</label>
+    <input 
+      type="email" name="txtCustomerEmail" id="txtCustomerEmail" 
+      placeholder="your e-mail" required
+      >
+    <br><br>
+    
+    <!-- Date and part of day -->
+    <label>Date:</label>
+    <input 
+      type="date" name="txtDate" id="txtDate" required
+      >
+    <br><br>
+    <fieldset>
+      <legend>Part of day</legend>
+      <input 
+        type="radio" name="rbPartOfDay" value="HalfDay"
+        > Half day<br>
+      <input 
+        type="radio" name="rbPartOfDay" value="WholeDay" checked
+        > Whole day<br>
+    </fieldset>
+    <br><br>
+
+    <!-- Tickets -->
+    <label>Tickets (1-21):</label>
+    <input type="number" name="txtTickets" id="txtTickets" value="2" 
+      min="1" step="1" max="21" required
+      onchange="updateTicketCost()">
+    <br><br>
+
+    <!-- Parking option -->
+    <label>Parking:</label>
+    <select name="cmbParking" id="cmbParking"
+      onchange="updateTicketCost()">
+      <option value="Regular">Regular</option>
+      <option value="Premium">Premium</option>
+      <option value="NotNeeded">Not Needed</option>
+    </select> 
+    <br><br>
+    
+    <!-- Discount code -->      
+    <label>Discount code:</label>
+    <select name="cmbDiscountCode" id="cmbDiscountCode"
+      onchange="updateTicketCost()">
+    </select> 
+    <br><br>
+    
+    <!-- Payment type fieldset -->
+    <fieldset>
+      <legend>Payment type</legend>
+      <input 
+        type="radio" name="rbPaymentType" 
+        value="Credit" checked
+        > Credit<br>
+      <input 
+        type="radio" name="rbPaymentType" 
+        value="PayPal"
+        > PayPal<br>
+      <input 
+        type="radio" name="rbPaymentType"
+        value="Venmo"
+        > Venmo<br>
+    </fieldset>
+    <br><br>
+
+    <!-- Ticket costs -->
+    <label class="labelTotal">Tickets ($):</label>
+    <input type="text" name="txtTicketCost" id="txtTicketCost" 
+      readonly>
+    <label class="labelTotal">Parking ($):</label>
+    <input type="text" name="txtParking" id="txtParking" 
+      readonly>
+    <label class="labelTotal">Discount ($):</label>
+    <input type="text" name="txtDiscount" id="txtDiscount" 
+      readonly>
+    <br><br>
+    
+    <!-- Ticket totals -->
+    <label class="labelTotal">Subtotal ($):</label>
+    <input type="text" name="txtSubtotal" id="txtSubtotal" 
+      readonly>
+    <label class="labelTotal">Tax ($):</label>
+    <input type="text" name="txtTax" id="txtTax" 
+      readonly>
+    <label class="labelTotal">Total ($):</label>
+    <input type="text" name="txtTotal" id="txtTotal" 
+      readonly>
+    <br><br>
+
+    <!-- Submit button -->
+    <button type="button" onclick="submitSale()">
+      Submit Sale
+    </button>
+
+  </div>
+
+  <!-- Footer section -->
+  <div class="footerPanel">
+    <h3>
+      Iron Island
+      &nbsp;&nbsp;7912 Coventry, Grosse Ile, MI 48138
+      &nbsp;&nbsp;942-476-8135
+      &nbsp;&nbsp;
+      <a href="mailto:info@ironislandpark.com">Email Us!</a>
+      &nbsp;&nbsp;Copyright &#169; 2022
+    </h3>
+  </div>
+  
+</body>
+ 
+</html>

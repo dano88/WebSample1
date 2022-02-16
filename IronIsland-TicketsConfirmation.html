@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<!--==================================================================
+//
+// Site:   Iron Island
+// Page:   Iron Island Tickets Confirmation
+// Author: Dan Ouellette
+// Description:
+//   This web page confirms a ticket purchase by a customer for a 
+// visit to Iron Island.
+// 
+//=================================================================-->
+
+<head>
+  
+  <title>Iron Island Tickets Confirmation</title>
+  <meta charset="UTF-8">
+  <meta name="author" content="Dan Ouellette"/>
+  <meta name="description" content="Iron Island"/>
+  <meta name="keywords" content="park, codes, fun">
+    
+  <!-- Favicon link -->
+  <link 
+    rel="shortcut icon" href="IronIsland-Logo.png" type="image/x-icon" 
+  />
+  
+  <!-- External CSS link -->
+  <link rel="stylesheet" type="text/css" 
+    href="IronIsland-ExternalStyles.css">
+  
+  <!-- Load tickets bought array -->
+  <script type="text/javascript">
+    "use strict"
+
+    //================================================================
+    // loadSale
+    //   This function retrieves and shows the sale from the Tickets 
+    // page.
+    //================================================================
+    function loadSale()
+    {
+    
+      // Retrieve sale data from session storage
+      lblCustomerName.innerHTML = 
+        sessionStorage.getItem("customerName");
+      lblCustomerEmail.innerHTML = 
+        sessionStorage.getItem("customerEmail");
+      lblDate.innerHTML = sessionStorage.getItem("visitDate");
+      lblPartOfDay.innerHTML = sessionStorage.getItem("partOfDay");
+      lblTickets.innerHTML = sessionStorage.getItem("tickets");
+      lblParking.innerHTML = sessionStorage.getItem("parking");
+      lblDiscount.innerHTML = sessionStorage.getItem("discount");
+      lblPayment.innerHTML = sessionStorage.getItem("payment");
+      lblTotal.innerHTML = sessionStorage.getItem("total");
+      
+    }
+
+  </script>
+
+</head>
+ 
+<body onload="loadSale()">
+
+  <!-- Header section -->
+  <div class="headerPanel">
+    <h1>
+      Iron Island Tickets Confirmation
+    </h1>
+  </div>
+    
+  <!-- Confirmation -->
+  <p>
+    See you soon at Iron Island!
+    Here are your ticket details:
+  </p>
+
+  <!-- Customer name and e-mail -->
+  <label>Customer name:</label>
+  <label id="lblCustomerName"></label>
+  <br>
+  <label>Customer e-mail:</label>
+  <label id="lblCustomerEmail"></label>
+  <br>
+
+  <!-- Date and part of day -->
+  <label>Date:</label>
+  <label id="lblDate"></label>
+  <br>
+  <label>Part of day:</label>
+  <label id="lblPartOfDay"></label>
+  <br>
+
+  <!-- Ticket count -->
+  <label>Tickets:</label>
+  <label id="lblTickets"></label>
+  <br>
+
+  <!-- Costs -->
+  <label>Parking option:</label>
+  <label id="lblParking"></label>
+  <br>
+  <label>Discount code:</label>
+  <label id="lblDiscount"></label>
+  <br>
+  <label>Payment type:</label>
+  <label id="lblPayment"></label>
+  <br>
+
+  <!-- Total -->
+  <label>Total ($):</label>
+  <label id="lblTotal"></label>
+  <br>
+  <br><br>
+
+  <!-- Footer section -->
+  <div class="footerPanel">
+    <h3>
+      Iron Island
+      &nbsp;&nbsp;7912 Coventry, Grosse Ile, MI 48138
+      &nbsp;&nbsp;942-476-8135
+      &nbsp;&nbsp;
+      <a href="mailto:info@ironislandpark.com">Email Us!</a>
+      &nbsp;&nbsp;Copyright &#169; 2022
+    </h3>
+  </div>
+  
+</body>
+ 
+</html>
